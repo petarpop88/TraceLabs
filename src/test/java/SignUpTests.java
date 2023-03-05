@@ -46,10 +46,10 @@ public class SignUpTests extends BaseTest {
         signUpPage.clickOnCreateAnAccountButton();
 
         //Verify success messagess
-        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.successMessage());
+        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
 
         //Verify that second paragraph of success message equals success message with registered email
-        Assert.assertEquals(signUpPage.successMessageWithEmail(),SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
+        Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(),SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
 
     }
 
@@ -73,7 +73,7 @@ public class SignUpTests extends BaseTest {
         signUpPage.clickOnCreateAnAccountButton();
 
         //Verify that username is already in use
-        Assert.assertEquals(ErrorMessages.TAKEN_USERNAME_ERROR_MESSAGE, signUpPage.takenUsernameMessage());
+        Assert.assertEquals(ErrorMessages.TAKEN_USERNAME_ERROR_MESSAGE, signUpPage.getTakenUsernameMessage());
 
     }
 
@@ -97,10 +97,10 @@ public class SignUpTests extends BaseTest {
         signUpPage.clickOnCreateAnAccountButton();
 
         //Verify success messagess
-        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.successMessage());
+        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
 
         //Verify that second paragraph of success message equals success message with registered email
-        Assert.assertEquals(signUpPage.successMessageWithEmail(),SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
+        Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(),SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
 
         //When user go to mailbox there is message "Welcome Back - Login to your account [Etherscan.io]".
         //This is a good practice for database security, because there is no any toast message to show that this email is in use and in our database until user check mailbox.
@@ -127,10 +127,10 @@ public class SignUpTests extends BaseTest {
         signUpPage.clickOnCreateAnAccountButton();
 
         //Verify success messagess
-        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.successMessage());
+        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
 
         //Verify that second paragraph of success message equals success message with registered email
-        Assert.assertEquals(signUpPage.successMessageWithEmail(),SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
+        Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(),SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
 
     }
 

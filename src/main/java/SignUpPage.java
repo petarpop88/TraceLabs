@@ -37,39 +37,40 @@ public class SignUpPage extends BasePage {
     }
 
 
-    public String successMessage() {
+    public String getSuccessMessage() {
         log.debug("successMessage()");
         return driver.findElement(successMessageLocator).getText();
     }
-    public String successMessageWithEmail() {
+    public String getSuccessMessageWithEmail() {
+        log.debug("getSuccessMessageWithEmail()");
         return driver.findElement(successMessageWithEmailLocator).getText();
     }
-    public String takenUsernameMessage() {
-        log.debug("takenUsernameMessage()");
+    public String getTakenUsernameMessage() {
+        log.debug("getTakenUsernameMessage()");
         return driver.findElement(takenUsernameMessageLocator).getText();
     }
 
-    public String shortUsernameMessage() {
-        log.debug("shortUsernameMessage()");
+    public String getShortUsernameMessage() {
+        log.debug("getShortUsernameMessage()");
         return driver.findElement(shortUsernameMessageLocator).getText();
     }
 
 
-    public String onlyAlphanumericCharsAllowedMessage() {
-        log.debug("onlyAlphanumericCharsAllowedMessage()");
+    public String getOnlyAlphanumericCharsAllowedMessage() {
+        log.debug("getOnlyAlphanumericCharsAllowedMessage()");
         return driver.findElement(onlyAlphanumericCharsAllowedMessageLocator).getText();
     }
 
-    public String invalidEmailTypeMessage() {
-        log.debug("invalidEmailTypeMessage()");
+    public String getInvalidEmailTypeMessage() {
+        log.debug("getInvalidEmailTypeMessage()");
         return driver.findElement(invalidEmailTypeMessageLocator).getText();
     }
-    public String shortPasswordMessage() {
-        log.debug("shortPasswordMessage()");
+    public String getshortPasswordMessage() {
+        log.debug("getshortPasswordMessage()");
         return driver.findElement(shortPasswordMessageLocator).getText();
     }
-    public String acceptTermsMessageLocator() {
-        log.debug("acceptTermsMessageLocator()");
+    public String getAcceptTermsMessage() {
+        log.debug("getAcceptTermsMessage()");
         return driver.findElement(acceptTermsMessageLocator).getText();
     }
 
