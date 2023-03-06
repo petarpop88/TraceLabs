@@ -269,7 +269,7 @@ public class SignUpTests extends BaseTest {
     }
 
     @Test
-    //15: Input random valid passwords in password fields. Verify that password is masked, click to show password and then verify that password is visible
+    //15: Input valid passwords in password fields. Verify that password is masked, click to show password and then verify that password is visible.
     public void checkMaskedPassword() {
 
         signUpPage.typePassword(Users.PASSWORD);
