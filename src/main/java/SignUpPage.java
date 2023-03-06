@@ -211,10 +211,6 @@ public class SignUpPage extends BasePage {
         eyeIcon1.click();
     }
 
-
-
-
-
     /*
     // clicking on any of two eye icons shows entered password in both password fields
     public void showConfirmPassword() {
@@ -237,7 +233,7 @@ public class SignUpPage extends BasePage {
         log.debug("clickOnCreateAnAccountButton");
         Assert.assertTrue(isCreateAnAccountButtonDisplayed(), "Create an account button is NOT present on page!");
         WebElement createAnAccountButton = getWebElement(createAnAccountButtonLocator);
-        createAnAccountButton.click();
+        createAnAccountButton.sendKeys(Keys.ENTER);
     }
     public void checkOnNewsletterCheckBox() {
         log.debug("checkOnNewsletterCheckBox");

@@ -33,9 +33,9 @@ public class BaseTest {
         driver.manage().window().maximize();
     }
 
-    //@AfterClass
-    //public void afterClass() {
-        //driver.quit();
-   // }
+    @AfterClass
+    public void afterClass() {
+        driver.quit();
+    }
 
 }

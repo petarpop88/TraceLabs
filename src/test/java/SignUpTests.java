@@ -48,7 +48,7 @@ public class SignUpTests extends BaseTest {
         Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
 
         //Verify that second paragraph of success message equals success message with registered email
-        Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(), SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
+        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL, signUpPage.getSuccessMessageWithEmail());
 
     }
 
@@ -70,7 +70,7 @@ public class SignUpTests extends BaseTest {
         signUpPage.clickOnCreateAnAccountButton();
 
         //Verify that username is already in use
-        Assert.assertEquals(ErrorMessages.TAKEN_USERNAME_ERROR_MESSAGE, signUpPage.getTakenUsernameMessage());
+        Assert.assertEquals(signUpPage.getTakenUsernameMessage(), ErrorMessages.TAKEN_USERNAME_ERROR_MESSAGE);
 
     }
 
@@ -92,7 +92,7 @@ public class SignUpTests extends BaseTest {
         signUpPage.clickOnCreateAnAccountButton();
 
         //Verify success messages
-        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
+        Assert.assertEquals(signUpPage.getSuccessMessage(), SuccesMessages.SUCCESS_MESSAGE);
 
         //Verify that second paragraph of success message equals success message with registered email
         Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(), SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
@@ -122,7 +122,7 @@ public class SignUpTests extends BaseTest {
         signUpPage.clickOnCreateAnAccountButton();
 
         //Verify success messages
-        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
+        Assert.assertEquals(signUpPage.getSuccessMessage(), SuccesMessages.SUCCESS_MESSAGE);
 
         //Verify that second paragraph of success message equals success message with registered email
         Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(), SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
@@ -144,7 +144,7 @@ public class SignUpTests extends BaseTest {
         //Google Captcha is disabled in testing environment
         signUpPage.clickOnCreateAnAccountButton();
 
-        Assert.assertEquals(ErrorMessages.ENTER_USERNAME_MESSAGE, signUpPage.getShortUsernameMessage());
+        Assert.assertEquals(signUpPage.getShortUsernameMessage(), ErrorMessages.ENTER_USERNAME_MESSAGE);
 
     }
 
@@ -153,7 +153,7 @@ public class SignUpTests extends BaseTest {
     public void shortUsername() {
 
         signUpPage.typeUsername(Users.SHORT_USERNAME);
-        Assert.assertEquals(ErrorMessages.SHORT_USERNAME_MESSAGE, signUpPage.getShortUsernameMessage());
+        Assert.assertEquals(signUpPage.getShortUsernameMessage(), ErrorMessages.SHORT_USERNAME_MESSAGE);
     }
 
     @Test
@@ -161,7 +161,7 @@ public class SignUpTests extends BaseTest {
     public void alphaNumericOnly() {
 
         signUpPage.typeUsername(Users.SPECIAL_CHAR_IN_USERNAME);
-        Assert.assertEquals(ErrorMessages.ONLY_ALPHA_CHARS_ALLOWED_MESSAGE, signUpPage.getOnlyAlphanumericCharsAllowedMessage());
+        Assert.assertEquals(signUpPage.getOnlyAlphanumericCharsAllowedMessage(), ErrorMessages.ONLY_ALPHA_CHARS_ALLOWED_MESSAGE);
 
     }
 
@@ -179,8 +179,8 @@ public class SignUpTests extends BaseTest {
         //Google Captcha is disabled in testing environment
         signUpPage.clickOnCreateAnAccountButton();
 
-        Assert.assertEquals(ErrorMessages.EMAIL_ERROR_MESSAGE, signUpPage.getInvalidEmailMessage());
-        Assert.assertEquals(ErrorMessages.RE_ENTER_EMAIL_MESSAGE, signUpPage.getInvalidConfirmEmailMessage());
+        Assert.assertEquals(signUpPage.getInvalidEmailMessage(), ErrorMessages.RE_ENTER_EMAIL_MESSAGE);
+        Assert.assertEquals(signUpPage.getInvalidConfirmEmailMessage(), ErrorMessages.RE_ENTER_EMAIL_MESSAGE);
 
     }
 
@@ -190,7 +190,7 @@ public class SignUpTests extends BaseTest {
 
         signUpPage.typeEmail(Users.EMAIL);
         signUpPage.typeConfirmEmail(faker.internet().emailAddress());
-        Assert.assertEquals(ErrorMessages.DIFFERENT_EMAIL_MESSAGE, signUpPage.getEmailDoesNotMatchMessage());
+        Assert.assertEquals(signUpPage.getEmailDoesNotMatchMessage(), ErrorMessages.DIFFERENT_EMAIL_MESSAGE);
 
     }
 
@@ -199,7 +199,7 @@ public class SignUpTests extends BaseTest {
     public void inputInvalidEmailType() {
 
         signUpPage.typeEmail(Users.INVALID_EMAIL_FORMAT);
-        Assert.assertEquals(ErrorMessages.EMAIL_ERROR_MESSAGE, signUpPage.getInvalidEmailMessage());
+        Assert.assertEquals(signUpPage.getInvalidEmailMessage(), ErrorMessages.EMAIL_ERROR_MESSAGE);
     }
 
     @Test
@@ -217,8 +217,8 @@ public class SignUpTests extends BaseTest {
         signUpPage.clickOnCreateAnAccountButton();
 
 
-        Assert.assertEquals(ErrorMessages.ENTER_PASSWORD_MESSAGE, signUpPage.getEnterPasswordMessage());
-        Assert.assertEquals(ErrorMessages.SHORT_PASSWORD_MESSAGE, signUpPage.getConfirmPasswordErrorMessage());
+        Assert.assertEquals(signUpPage.getEnterPasswordMessage(), ErrorMessages.ENTER_PASSWORD_MESSAGE);
+        Assert.assertEquals(signUpPage.getConfirmPasswordErrorMessage(), ErrorMessages.SHORT_PASSWORD_MESSAGE);
 
     }
 
@@ -240,7 +240,7 @@ public class SignUpTests extends BaseTest {
         signUpPage.clickOnCreateAnAccountButton();
 
         //Verify success messages
-        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
+        Assert.assertEquals(signUpPage.getSuccessMessage(), SuccesMessages.SUCCESS_MESSAGE);
 
         //Verify that second paragraph of success message contains registered email
         Assert.assertTrue(signUpPage.getSuccessMessageWithEmail().contains(Users.EMAIL));
@@ -253,8 +253,8 @@ public class SignUpTests extends BaseTest {
         signUpPage.typePassword(Users.SHORT_PASSWORD);
         signUpPage.typeConfirmPassword(Users.SHORT_PASSWORD);
 
-        Assert.assertEquals(ErrorMessages.SHORT_PASSWORD_MESSAGE, signUpPage.getShortPasswordMessage());
-        Assert.assertEquals(ErrorMessages.SHORT_PASSWORD_MESSAGE, signUpPage.getConfirmShortPasswordMessage());
+        Assert.assertEquals(signUpPage.getShortPasswordMessage(), ErrorMessages.SHORT_PASSWORD_MESSAGE);
+        Assert.assertEquals(signUpPage.getConfirmShortPasswordMessage(), ErrorMessages.SHORT_PASSWORD_MESSAGE);
 
     }
 
@@ -265,7 +265,7 @@ public class SignUpTests extends BaseTest {
         signUpPage.typePassword(Users.PASSWORD);
         signUpPage.typeConfirmPassword(Users.MINIMUM_PASSWORD_CRITERIA);
 
-        Assert.assertEquals(ErrorMessages.PASSWORD_DOES_NOT_MATCH_MESSAGE, signUpPage.getPasswordDoesNotMatchMessage());
+        Assert.assertEquals(signUpPage.getPasswordDoesNotMatchMessage(), ErrorMessages.PASSWORD_DOES_NOT_MATCH_MESSAGE);
     }
 
     @Test
@@ -275,11 +275,11 @@ public class SignUpTests extends BaseTest {
         signUpPage.typePassword(Users.PASSWORD);
         signUpPage.typeConfirmPassword(Users.PASSWORD);
 
-        Assert.assertEquals("password", signUpPage.getTextFromType());
+        Assert.assertEquals(signUpPage.getTextFromType(), "password");
 
         signUpPage.showPassword();
 
-        Assert.assertEquals("text", signUpPage.getTextFromType());
+        Assert.assertEquals(signUpPage.getTextFromType(), "text");
 
     }
 
