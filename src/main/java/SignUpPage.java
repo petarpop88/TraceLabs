@@ -3,10 +3,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.locators.RelativeLocator;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 import org.testng.Assert;
+
+import java.time.Duration;
 
 public class SignUpPage extends BasePage {
 
@@ -22,15 +26,17 @@ public class SignUpPage extends BasePage {
     private final By successMessageLocator = By.xpath("//*[@id=\"ctl00\"]/div[3]");
     private final By successMessageWithEmailLocator = By.xpath("//*[@id=\"ctl00\"]/p[1]");
     private final By takenUsernameMessageLocator = By.xpath("//*[@id=\"ctl00\"]/div[3]");
-    private final By shortUsernameMessageLocator = By.id("ContentPlaceHolder1_txtUserName-error");
-    private final By onlyAlphanumericCharsAllowedMessageLocator = By.id("ContentPlaceHolder1_txtUserName-error");
-    private final By invalidEmailTypeMessageLocator = By.id("ContentPlaceHolder1_txtEmail-error");
-    private final By shortPasswordMessageLocator = By.id("ContentPlaceHolder1_txtUserName-error");
-
+    private final By userNameErrorMessagesLocator = By.id("ContentPlaceHolder1_txtUserName-error");
+    private final By invalidEmailMessageLocator = By.id("ContentPlaceHolder1_txtEmail-error");
+    private final By invalidConfirmEmailMessageLocator = By.id("ContentPlaceHolder1_txtConfirmEmail-error");
+    private final By passwordErrorMessagesLocator = By.id("ContentPlaceHolder1_txtPassword-error");
+    private final By confirmPasswordErrorMessagesLocator = By.id("ContentPlaceHolder1_txtPassword2-error");
     private final By acceptTermsMessageLocator = By.id("ctl00$ContentPlaceHolder1$MyCheckBox-error");
+    private final By passwordToogleLocator = By.id("showMultiPassIcon1");
+    //private final By confirmPasswordToogleLocator = By.xpath("//*[@id=\"ContentPlaceHolder1_maindiv\"]/div[5]/div[1]/span/button");
+
+
     private final By newsletterCheckBoxLocator = By.id("ContentPlaceHolder1_SubscribeNewsletter");
-
-
 
     public SignUpPage(WebDriver driver, WebDriverWait webDriverWait, Faker faker) {
         super(driver, webDriverWait, faker);
@@ -49,30 +55,55 @@ public class SignUpPage extends BasePage {
         log.debug("getTakenUsernameMessage()");
         return driver.findElement(takenUsernameMessageLocator).getText();
     }
-
     public String getShortUsernameMessage() {
         log.debug("getShortUsernameMessage()");
-        return driver.findElement(shortUsernameMessageLocator).getText();
+        return driver.findElement(userNameErrorMessagesLocator).getText();
     }
-
-
     public String getOnlyAlphanumericCharsAllowedMessage() {
         log.debug("getOnlyAlphanumericCharsAllowedMessage()");
-        return driver.findElement(onlyAlphanumericCharsAllowedMessageLocator).getText();
+        return driver.findElement(userNameErrorMessagesLocator).getText();
+    }
+    public String getInvalidEmailMessage() {
+        log.debug("getInvalidEmailMessage()");
+        return driver.findElement(invalidEmailMessageLocator).getText();
+    }
+    public String getInvalidConfirmEmailMessage() {
+        log.debug("getInvalidConfirmEmailMessage()");
+        return driver.findElement(invalidConfirmEmailMessageLocator).getText();
     }
 
-    public String getInvalidEmailTypeMessage() {
-        log.debug("getInvalidEmailTypeMessage()");
-        return driver.findElement(invalidEmailTypeMessageLocator).getText();
+    public String getEmailDoesNotMatchMessage() {
+        log.debug("getEmailDoesNotMatchMessage()");
+        return driver.findElement(invalidConfirmEmailMessageLocator).getText();
     }
-    public String getshortPasswordMessage() {
-        log.debug("getshortPasswordMessage()");
-        return driver.findElement(shortPasswordMessageLocator).getText();
+
+    public String getConfirmPasswordErrorMessage() {
+        log.debug("getConfirmPasswordErrorMessage()");
+        return driver.findElement(confirmPasswordErrorMessagesLocator).getText();
+    }
+
+    public String getEnterPasswordMessage() {
+        log.debug("getEnterPasswordMessage()");
+        return driver.findElement(passwordErrorMessagesLocator).getText();
+    }
+    public String getShortPasswordMessage() {
+        log.debug("getShortPasswordMessage()");
+        return driver.findElement(passwordErrorMessagesLocator).getText();
+    }
+    public String getConfirmShortPasswordMessage() {
+        log.debug("getConfirmShortPasswordMessage()");
+        return driver.findElement(confirmPasswordErrorMessagesLocator).getText();
+    }
+
+    public String getPasswordDoesNotMatchMessage() {
+        log.debug("(passwordDoesNotMatchMessage)");
+        return driver.findElement(confirmPasswordErrorMessagesLocator).getText();
     }
     public String getAcceptTermsMessage() {
         log.debug("getAcceptTermsMessage()");
         return driver.findElement(acceptTermsMessageLocator).getText();
     }
+
 
     public boolean isCookieButtonDisplayed() {
         log.debug("isCookieButtonDisplayed()");
@@ -106,11 +137,19 @@ public class SignUpPage extends BasePage {
         log.debug("isCreateAnAccountButtonDisplayed()");
         return isWebElementDisplayed(createAnAccountButtonLocator);
     }
+
+    public boolean isTooglePasswordOptionDisplayed() {
+        log.debug("isTooglePasswordDisplayed");
+        return isWebElementDisplayed(passwordToogleLocator);
+    }
+    //public boolean isConfirmTooglePasswordOptionDisplayed() {
+        //log.debug("isOptionConfirmTooglePasswordDisplayed");
+        //return isWebElementDisplayed(confirmPasswordToogleLocator);
+    //}
     public boolean isNewsletterCheckBoxDisplayed() {
         log.debug("isNewsletterCheckBoxDisplayed()");
         return isWebElementDisplayed(newsletterCheckBoxLocator);
     }
-
 
     public void clickOnCookieGotItButton() {
         log.debug("clickOnGotItButton");
@@ -158,6 +197,22 @@ public class SignUpPage extends BasePage {
         clearAndTypeTextToWebElement(typeConfirmPasswordField, password);
         return this;
     }
+
+    public void clickOnTooglePasswordOption() {
+        log.debug("clickOnTooglePasswordOption");
+        Assert.assertTrue(isTooglePasswordOptionDisplayed(), "Toogle password option is NOT present on page!");
+        WebElement tooglePassword = getWebElement(passwordToogleLocator);
+        tooglePassword.isSelected()
+    }
+/*
+        public void clickOnConfirmTooglePasswordOption() {
+        log.debug("clickOnConfirmTooglePasswordOption");
+       WebElement confirmTooglePassword = getWebElement(confirmPasswordToogleLocator);
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, Duration.ofMillis(5000)).until(ExpectedConditions.visibilityOf(confirmTooglePassword));
+       Assert.assertTrue(isConfirmTooglePasswordOptionDisplayed(), "Confirm Toogle password option is NOT present on page!");
+       confirmTooglePassword.click();
+    }
+*/
 
     public void checkOnTermsAndConditionsCheckBox() {
         log.debug("checkOnTermsAndConditionsCheckBox");

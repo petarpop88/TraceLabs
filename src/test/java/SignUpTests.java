@@ -6,8 +6,8 @@ import java.time.Duration;
 
 public class SignUpTests extends BaseTest {
 
-    //Environment: TESTING
-    //CAPTCHA = false
+    //environment = testing
+    //captcha = false
 
     @Test
     //#1: Visit registation page and verify that mandatory fields are present
@@ -30,8 +30,6 @@ public class SignUpTests extends BaseTest {
     //#2 HAPPY FLOW - Sign up new user with valid data
     public void signUpNewUserWithValidData() {
 
-        signUpPage.clickOnCookieGotItButton();
-
         signUpPage.typeUsername(Users.USERNAME);
 
         signUpPage.typeEmail(Users.EMAIL);
@@ -45,19 +43,18 @@ public class SignUpTests extends BaseTest {
         //Google Captcha is disabled in testing environment
         signUpPage.clickOnCreateAnAccountButton();
 
-        //Verify success messagess
+
+        //Verify success message
         Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
 
         //Verify that second paragraph of success message equals success message with registered email
-        Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(),SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
+        Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(), SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
 
     }
 
     @Test
     //#3: Sign up new user with data from previous test and verify that username is already taken
     public void signUpWithExistingUser() {
-
-        signUpPage.clickOnCookieGotItButton();
 
         signUpPage.typeUsername(Users.USERNAME);
 
@@ -78,10 +75,8 @@ public class SignUpTests extends BaseTest {
     }
 
     @Test
-    //#4: Sign up new user with new username and existing email. Verify that you successfully register and get success message
+    //#4: Sign up new user with new username and existing email. Verify that user successfully register and get success message
     public void signUpWithNewUsernameAndExistingEmail() {
-
-        signUpPage.clickOnCookieGotItButton();
 
         signUpPage.typeUsername(Users.NEW_USERNAME);
 
@@ -96,11 +91,11 @@ public class SignUpTests extends BaseTest {
         //Google Captcha is disabled in testing environment
         signUpPage.clickOnCreateAnAccountButton();
 
-        //Verify success messagess
+        //Verify success messages
         Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
 
         //Verify that second paragraph of success message equals success message with registered email
-        Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(),SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
+        Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(), SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
 
         //When user go to mailbox there is message "Welcome Back - Login to your account [Etherscan.io]".
         //This is a good practice for database security, because there is no any toast message to show that this email is in use and in our database until user check mailbox.
@@ -108,14 +103,14 @@ public class SignUpTests extends BaseTest {
     }
 
     @Test
-    //#4: Sign up new user with newsletter check box
+    //#5: Sign up new user with newsletter check box and accept cookies. Verify that user successfully register and get success message
     public void signUpWithNewUserWithNewsletter() {
-        signUpPage.clickOnCookieGotItButton();
 
+        signUpPage.clickOnCookieGotItButton();
         signUpPage.typeUsername(Users.NEWSLETTER_USERNAME);
 
-        signUpPage.typeEmail(Users.RANDOM_EMAIL);
-        signUpPage.typeConfirmEmail(Users.RANDOM_EMAIL);
+        signUpPage.typeEmail(Users.NEWSLETTER_EMAIL);
+        signUpPage.typeConfirmEmail(Users.NEWSLETTER_EMAIL);
 
         signUpPage.typePassword(Users.PASSWORD);
         signUpPage.typeConfirmPassword(Users.PASSWORD);
@@ -126,12 +121,163 @@ public class SignUpTests extends BaseTest {
         //Google Captcha is disabled in testing environment
         signUpPage.clickOnCreateAnAccountButton();
 
-        //Verify success messagess
+        //Verify success messages
         Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
 
         //Verify that second paragraph of success message equals success message with registered email
-        Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(),SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
+        Assert.assertEquals(signUpPage.getSuccessMessageWithEmail(), SuccesMessages.SUCCESS_MESSAGE_WITH_EMAIL);
 
+    }
+
+    @Test
+    //#6: Sign up new user without username. Verify that user can't register without username and error message appears under username fields
+    public void signUpNewUserWithoutUsername() {
+
+        signUpPage.typeEmail(Users.EMAIL);
+        signUpPage.typeConfirmEmail(Users.EMAIL);
+
+        signUpPage.typePassword(Users.PASSWORD);
+        signUpPage.typeConfirmPassword(Users.PASSWORD);
+
+        signUpPage.checkOnTermsAndConditionsCheckBox();
+
+        //Google Captcha is disabled in testing environment
+        signUpPage.clickOnCreateAnAccountButton();
+
+        Assert.assertEquals(ErrorMessages.ENTER_USERNAME_MESSAGE, signUpPage.getShortUsernameMessage());
+
+    }
+
+    @Test
+    //#7: Enter short username. Verify that user get error message under username field.
+    public void shortUsername() {
+
+        signUpPage.typeUsername(Users.SHORT_USERNAME);
+        Assert.assertEquals(ErrorMessages.SHORT_USERNAME_MESSAGE, signUpPage.getShortUsernameMessage());
+    }
+
+    @Test
+    //#6: Enter username with special char. Verify that user get error message under username field.
+    public void alphaNumericOnly() {
+
+        signUpPage.typeUsername(Users.SPECIAL_CHAR_IN_USERNAME);
+        Assert.assertEquals(ErrorMessages.ONLY_ALPHA_CHARS_ALLOWED_MESSAGE, signUpPage.getOnlyAlphanumericCharsAllowedMessage());
+
+    }
+
+    @Test
+    //#8: Sign up new user without email. Verify that user get error messages under email address and confirm email address fields
+    public void signUpNewUserWithoutEmail() {
+
+        signUpPage.typeUsername(Users.USERNAME);
+
+        signUpPage.typePassword(Users.PASSWORD);
+        signUpPage.typeConfirmPassword(Users.PASSWORD);
+
+        signUpPage.checkOnTermsAndConditionsCheckBox();
+
+        //Google Captcha is disabled in testing environment
+        signUpPage.clickOnCreateAnAccountButton();
+
+        Assert.assertEquals(ErrorMessages.EMAIL_ERROR_MESSAGE, signUpPage.getInvalidEmailMessage());
+        Assert.assertEquals(ErrorMessages.RE_ENTER_EMAIL_MESSAGE, signUpPage.getInvalidConfirmEmailMessage());
+
+    }
+
+    @Test
+    //#9: Input two different emails. Verify that user get error message under confirm email address field
+    public void differentEmails() {
+
+        signUpPage.typeEmail(Users.EMAIL);
+        signUpPage.typeConfirmEmail(faker.internet().emailAddress());
+        Assert.assertEquals(ErrorMessages.DIFFERENT_EMAIL_MESSAGE, signUpPage.getEmailDoesNotMatchMessage());
+
+    }
+
+    @Test
+    //#10: Input invalid email type. Verify that user get error message under email address field
+    public void inputInvalidEmailType() {
+
+        signUpPage.typeEmail(Users.INVALID_EMAIL_FORMAT);
+        Assert.assertEquals(ErrorMessages.EMAIL_ERROR_MESSAGE, signUpPage.getInvalidEmailMessage());
+    }
+
+    @Test
+    //11: Sign up new user without password. Verify that user get error messages under password and confirm password fields
+    public void signUpNewUserWithoutPassword() {
+
+        signUpPage.typeUsername(Users.USERNAME);
+
+        signUpPage.typeEmail(Users.EMAIL);
+        signUpPage.typeConfirmEmail(Users.EMAIL);
+
+        signUpPage.checkOnTermsAndConditionsCheckBox();
+
+        //Google Captcha is disabled in testing environment
+        signUpPage.clickOnCreateAnAccountButton();
+
+
+        Assert.assertEquals(ErrorMessages.ENTER_PASSWORD_MESSAGE, signUpPage.getEnterPasswordMessage());
+        Assert.assertEquals(ErrorMessages.SHORT_PASSWORD_MESSAGE, signUpPage.getConfirmPasswordErrorMessage());
+
+    }
+
+    @Test
+    //12: Sign up new user with minimum password requirements. Verify that user successfully register and get success message
+    public void signUpNewWithMinimalPasswordReq() {
+
+        signUpPage.typeUsername(faker.gameOfThrones().character());
+
+        signUpPage.typeEmail(Users.RANDOM_EMAIL);
+        signUpPage.typeConfirmEmail(Users.RANDOM_EMAIL);
+
+        signUpPage.typePassword(Users.MINIMUM_PASSWORD_CRITERIA);
+        signUpPage.typeConfirmPassword(Users.MINIMUM_PASSWORD_CRITERIA);
+
+        signUpPage.checkOnTermsAndConditionsCheckBox();
+
+        //Google Captcha is disabled in testing environment
+        signUpPage.clickOnCreateAnAccountButton();
+
+        //Verify success messages
+        Assert.assertEquals(SuccesMessages.SUCCESS_MESSAGE, signUpPage.getSuccessMessage());
+
+        //Verify that second paragraph of success message contains registered email
+        Assert.assertTrue(signUpPage.getSuccessMessageWithEmail().contains(Users.EMAIL));
+
+    }
+    @Test
+    //13: Input short password in password fields. Verify that user get error messages under password and confirm password fields
+    public void inputShortPassword() {
+
+        signUpPage.typePassword(Users.SHORT_PASSWORD);
+        signUpPage.typeConfirmPassword(Users.SHORT_PASSWORD);
+
+        Assert.assertEquals(ErrorMessages.SHORT_PASSWORD_MESSAGE, signUpPage.getShortPasswordMessage());
+        Assert.assertEquals(ErrorMessages.SHORT_PASSWORD_MESSAGE, signUpPage.getConfirmShortPasswordMessage());
+
+    }
+
+    @Test
+    //14: Input different passwords in password fields. Verify that user get error message under confirm password address field
+    public void differentPasswords() {
+
+        signUpPage.typePassword(Users.PASSWORD);
+        signUpPage.typeConfirmPassword(Users.MINIMUM_PASSWORD_CRITERIA);
+
+        Assert.assertEquals(ErrorMessages.PASSWORD_DOES_NOT_MATCH_MESSAGE, signUpPage.getPasswordDoesNotMatchMessage());
+    }
+
+    @Test
+    //15: Input random valid passwords in password fields. Verify that password is masked, password toogle is clickable to show password and then verify that password is visible
+    public void checkMaskedPassword() {
+
+        signUpPage.clickOnCookieGotItButton();
+        signUpPage.typePassword(faker.internet().password(8,15,true,false,true));
+        //signUpPage.typeConfirmPassword(faker.internet().password(8,20,false,false,true));
+
+        signUpPage.clickOnTooglePasswordOption();
+        //signUpPage.clickOnConfirmTooglePasswordOption();
     }
 
 }
