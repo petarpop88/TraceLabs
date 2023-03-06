@@ -32,10 +32,9 @@ public class SignUpPage extends BasePage {
     private final By passwordErrorMessagesLocator = By.id("ContentPlaceHolder1_txtPassword-error");
     private final By confirmPasswordErrorMessagesLocator = By.id("ContentPlaceHolder1_txtPassword2-error");
     private final By acceptTermsMessageLocator = By.id("ctl00$ContentPlaceHolder1$MyCheckBox-error");
-    private final By passwordToogleLocator = By.id("showMultiPassIcon1");
-    //private final By confirmPasswordToogleLocator = By.xpath("//*[@id=\"ContentPlaceHolder1_maindiv\"]/div[5]/div[1]/span/button");
 
-
+    private final By passwordEyeIcon1Locator = By.id("showMultiPassIcon1");
+    private final By passwordEyeIcon2Locator = By.id("showMultiPassIcon2");
     private final By newsletterCheckBoxLocator = By.id("ContentPlaceHolder1_SubscribeNewsletter");
 
     public SignUpPage(WebDriver driver, WebDriverWait webDriverWait, Faker faker) {
@@ -99,6 +98,11 @@ public class SignUpPage extends BasePage {
         log.debug("(passwordDoesNotMatchMessage)");
         return driver.findElement(confirmPasswordErrorMessagesLocator).getText();
     }
+    public String getTextFromType() {
+        log.debug("(getTextType)");
+        return driver.findElement(passwordFieldLocator).getAttribute("type");
+    }
+
     public String getAcceptTermsMessage() {
         log.debug("getAcceptTermsMessage()");
         return driver.findElement(acceptTermsMessageLocator).getText();
@@ -138,14 +142,14 @@ public class SignUpPage extends BasePage {
         return isWebElementDisplayed(createAnAccountButtonLocator);
     }
 
-    public boolean isTooglePasswordOptionDisplayed() {
-        log.debug("isTooglePasswordDisplayed");
-        return isWebElementDisplayed(passwordToogleLocator);
+    public boolean isPasswordEyeIcon1LocatorDisplayed() {
+        log.debug("isPasswordEyeIcon1LocatorDisplayed");
+        return isWebElementDisplayed(passwordEyeIcon1Locator);
     }
-    //public boolean isConfirmTooglePasswordOptionDisplayed() {
-        //log.debug("isOptionConfirmTooglePasswordDisplayed");
-        //return isWebElementDisplayed(confirmPasswordToogleLocator);
-    //}
+    public boolean isPasswordEyeIcon2LocatorDisplayed() {
+        log.debug("isPasswordEyeIcon2LocatorDisplayed");
+        return isWebElementDisplayed(passwordEyeIcon2Locator);
+    }
     public boolean isNewsletterCheckBoxDisplayed() {
         log.debug("isNewsletterCheckBoxDisplayed()");
         return isWebElementDisplayed(newsletterCheckBoxLocator);
@@ -198,21 +202,30 @@ public class SignUpPage extends BasePage {
         return this;
     }
 
-    public void clickOnTooglePasswordOption() {
-        log.debug("clickOnTooglePasswordOption");
-        Assert.assertTrue(isTooglePasswordOptionDisplayed(), "Toogle password option is NOT present on page!");
-        WebElement tooglePassword = getWebElement(passwordToogleLocator);
-        tooglePassword.isSelected()
+    public void showPassword() {
+        log.debug("showPassword");
+        Assert.assertTrue(isPasswordEyeIcon1LocatorDisplayed(), "Eye icon in password field is NOT present on page!");
+        WebElement eyeIcon1 = getWebElement(passwordEyeIcon1Locator);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(eyeIcon1));
+        eyeIcon1.click();
     }
-/*
-        public void clickOnConfirmTooglePasswordOption() {
-        log.debug("clickOnConfirmTooglePasswordOption");
-       WebElement confirmTooglePassword = getWebElement(confirmPasswordToogleLocator);
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, Duration.ofMillis(5000)).until(ExpectedConditions.visibilityOf(confirmTooglePassword));
-       Assert.assertTrue(isConfirmTooglePasswordOptionDisplayed(), "Confirm Toogle password option is NOT present on page!");
-       confirmTooglePassword.click();
+
+
+
+
+
+    /*
+    // clicking on any of two eye icons shows entered password in both password fields
+    public void showConfirmPassword() {
+        log.debug("showConfirmPassword");
+        Assert.assertTrue(isPasswordEyeIcon2LocatorDisplayed(), "Eye icon in confirm password field is NOT present on page!");
+        WebElement eyeIcon2 = getWebElement(passwordEyeIcon2Locator);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(eyeIcon2));
+        eyeIcon2.click();
     }
-*/
+    */
 
     public void checkOnTermsAndConditionsCheckBox() {
         log.debug("checkOnTermsAndConditionsCheckBox");
