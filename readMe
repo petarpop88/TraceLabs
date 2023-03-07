@@ -1,0 +1,19 @@
+Test Automation
+Sign Up page: https://etherscan.io/register
+
+To enable an automatic testing for this java maven project, I used IntelliJ IDEA and POM (Page Object Model) design pattern that help me create more maintainable and readable test code.
+Also I used and added dependencies for Selenium, TestNG, Log4j and Java Faker libraries in pom.xml file that are commonly used in java for automation testing.
+Selenium WebDriver provides me a programming interface to control web browsers and simulate user actions, while testNG provide me assert methods and annotations.
+Log4j for to generate debug log messages and finally I added my favorite library java faker that generates realistic fake data for testing purposes.
+
+Regarding further information on test automation I create, I didn't manage to bypass the Google Captcha v3. I did a little research and found on google developers web page that
+is possible and then reCAPTCHA widget will show a warning message to ensure it's not used for production traffic. So I imagined with my automation tests that the captcha is always false :)
+Usually captcha is disabled in the testing environment. From my experience on the project I'm working on now, such tests usually cannot be automated and are done manually as each
+version of the application is prepared for release.
+
+For execution of manual test cases I worked on production environment using Chrome browser and incognito mode with test data for different needs in my test cases.
+
+I shared my project on github, set it to private according to the instructions and added collaborators: marijakrivosic, djordjekovac, branarakic, anadjokovic.
+
+email:
+careers@tracelabs.io
