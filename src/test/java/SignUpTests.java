@@ -1,4 +1,3 @@
-import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -269,18 +268,41 @@ public class SignUpTests extends BaseTest {
     }
 
     @Test
-    //15: Input valid passwords in password fields. Verify that password is masked, click to show password and then verify that password is visible.
+    //15: Input valid passwords in password fields. Verify that password is masked, click to show password and then verify that password is visible
     public void checkMaskedPassword() {
 
         signUpPage.typePassword(Users.PASSWORD);
         signUpPage.typeConfirmPassword(Users.PASSWORD);
 
+        //Verify that get text from type is "password" which means text is masked.
         Assert.assertEquals(signUpPage.getTextFromType(), "password");
 
+        //Method for revealing passwords. Clicking on any of two eye-icons shows both passwords
         signUpPage.showPassword();
 
+        //Verify that get text from type is "text, which means text is unmasked
         Assert.assertEquals(signUpPage.getTextFromType(), "text");
+    }
+    @Test
+    //16: Sign up new user without checking box for Terms and Conditions. Verify that user can't register and error message appears under
+    public void signUpNewUserWithWithoutTermsAndConditions() {
+
+        signUpPage.typeUsername(faker.gameOfThrones().character());
+
+        signUpPage.typeEmail(Users.RANDOM_EMAIL);
+        signUpPage.typeConfirmEmail(Users.RANDOM_EMAIL);
+
+        signUpPage.typePassword(Users.MINIMUM_PASSWORD_CRITERIA);
+        signUpPage.typeConfirmPassword(Users.MINIMUM_PASSWORD_CRITERIA);
+
+        //Google Captcha is disabled in testing environment
+        signUpPage.clickOnCreateAnAccountButton();
+
+        //Verify error message under terms and conditions check box
+        Assert.assertEquals(signUpPage.getAcceptTermsMessage(), ErrorMessages.ACCEPT_TERMS_MESSAGE);
+
 
     }
+
 
 }

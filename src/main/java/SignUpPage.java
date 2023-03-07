@@ -142,11 +142,11 @@ public class SignUpPage extends BasePage {
         return isWebElementDisplayed(createAnAccountButtonLocator);
     }
 
-    public boolean isPasswordEyeIcon1LocatorDisplayed() {
+    public boolean isPasswordEyeIcon1Displayed() {
         log.debug("isPasswordEyeIcon1LocatorDisplayed");
         return isWebElementDisplayed(passwordEyeIcon1Locator);
     }
-    public boolean isPasswordEyeIcon2LocatorDisplayed() {
+    public boolean isPasswordEyeIcon2Displayed() {
         log.debug("isPasswordEyeIcon2LocatorDisplayed");
         return isWebElementDisplayed(passwordEyeIcon2Locator);
     }
@@ -204,7 +204,7 @@ public class SignUpPage extends BasePage {
 
     public void showPassword() {
         log.debug("showPassword");
-        Assert.assertTrue(isPasswordEyeIcon1LocatorDisplayed(), "Eye icon in password field is NOT present on page!");
+        Assert.assertTrue(isPasswordEyeIcon1Displayed(), "Eye icon in password field is NOT present on page!");
         WebElement eyeIcon1 = getWebElement(passwordEyeIcon1Locator);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(eyeIcon1));

@@ -8,7 +8,7 @@ public class Users {
 
     //4 letters
     public final static String SHORT_USERNAME = "test";
-    public final static String SPECIAL_CHAR_IN_USERNAME = "test!";
+    public final static String SPECIAL_CHAR_IN_USERNAME = "!test";
     public final static String PASSWORD = "Etherscan123";
 
     public final static String MINIMUM_PASSWORD_CRITERIA = "12345678";
